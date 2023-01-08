@@ -1,17 +1,21 @@
-package com.gutsenko.cleanarchitecture
+package com.gutsenko.cleanarchitecture.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import com.gutsenko.cleanarchitecture.R
+import com.gutsenko.cleanarchitecture.data.repository.UserRepositoryImpl
+import com.gutsenko.cleanarchitecture.data.storage.SharedPrefsUserStorage
 import com.gutsenko.cleanarchitecture.domain.models.SaveUserNameParam
 import com.gutsenko.cleanarchitecture.domain.usecase.GetUserNameUseCase
 import com.gutsenko.cleanarchitecture.domain.usecase.SaveUserNameUseCase
 
 class MainActivity : AppCompatActivity() {
-    private val getUserNameUseCase = GetUserNameUseCase()
-    private val saveUserNameUseCase = SaveUserNameUseCase()
+    private val userRepository by lazy(LazyThreadSafetyMode.NONE) { UserRepositoryImpl(userStorage = SharedPrefsUserStorage(applicationContext)) }
+    private val getUserNameUseCase by lazy(LazyThreadSafetyMode.NONE) { GetUserNameUseCase(userRepository = userRepository) }
+    private val saveUserNameUseCase by lazy(LazyThreadSafetyMode.NONE) { SaveUserNameUseCase(userRepository = userRepository) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
