@@ -7,15 +7,29 @@ import android.widget.EditText
 import android.widget.TextView
 import com.gutsenko.cleanarchitecture.R
 import com.gutsenko.cleanarchitecture.data.repository.UserRepositoryImpl
-import com.gutsenko.cleanarchitecture.data.storage.SharedPrefsUserStorage
+import com.gutsenko.cleanarchitecture.data.storage.sharedPrefs.SharedPrefsUserStorage
 import com.gutsenko.cleanarchitecture.domain.models.SaveUserNameParam
 import com.gutsenko.cleanarchitecture.domain.usecase.GetUserNameUseCase
 import com.gutsenko.cleanarchitecture.domain.usecase.SaveUserNameUseCase
 
 class MainActivity : AppCompatActivity() {
-    private val userRepository by lazy(LazyThreadSafetyMode.NONE) { UserRepositoryImpl(userStorage = SharedPrefsUserStorage(applicationContext)) }
-    private val getUserNameUseCase by lazy(LazyThreadSafetyMode.NONE) { GetUserNameUseCase(userRepository = userRepository) }
-    private val saveUserNameUseCase by lazy(LazyThreadSafetyMode.NONE) { SaveUserNameUseCase(userRepository = userRepository) }
+    private val userRepository by lazy(LazyThreadSafetyMode.NONE) {
+        com.gutsenko.cleanarchitecture.data.repository.UserRepositoryImpl(
+            userStorage = com.gutsenko.cleanarchitecture.data.storage.sharedPrefs.SharedPrefsUserStorage(
+                applicationContext
+            )
+        )
+    }
+    private val getUserNameUseCase by lazy(LazyThreadSafetyMode.NONE) {
+        com.gutsenko.cleanarchitecture.domain.usecase.GetUserNameUseCase(
+            userRepository = userRepository
+        )
+    }
+    private val saveUserNameUseCase by lazy(LazyThreadSafetyMode.NONE) {
+        com.gutsenko.cleanarchitecture.domain.usecase.SaveUserNameUseCase(
+            userRepository = userRepository
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         sendButton.setOnClickListener {
             val text = dataEditView.text.toString()
-            val params = SaveUserNameParam(text)
+            val params = com.gutsenko.cleanarchitecture.domain.models.SaveUserNameParam(text)
             dataTextView.text = "result = ${saveUserNameUseCase.execute(params)}"
         }
 

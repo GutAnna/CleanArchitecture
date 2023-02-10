@@ -1,6 +1,8 @@
-package com.gutsenko.cleanarchitecture.data.storage
+package com.gutsenko.cleanarchitecture.data.storage.sharedPrefs
 
 import android.content.Context
+import com.gutsenko.cleanarchitecture.data.storage.UserStorage
+import com.gutsenko.cleanarchitecture.data.storage.models.User
 
 private const val SHARED_PREFS_NAME = "shared_prefs_name"
 private const val KEY_FIRST_NAME = "key_first_name"

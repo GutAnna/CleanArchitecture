@@ -1,6 +1,6 @@
 package com.gutsenko.cleanarchitecture.data.repository
 
-import com.gutsenko.cleanarchitecture.data.storage.User
+import com.gutsenko.cleanarchitecture.data.storage.models.User
 import com.gutsenko.cleanarchitecture.data.storage.UserStorage
 import com.gutsenko.cleanarchitecture.domain.models.SaveUserNameParam
 import com.gutsenko.cleanarchitecture.domain.models.UserName
