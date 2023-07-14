@@ -8,16 +8,20 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.gutsenko.cleanarchitecture.R
-import com.gutsenko.cleanarchitecture.domain.models.SaveUserNameParam
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.gutsenko.cleanarchitecture.app.App
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
-
-    private val vm by viewModel<MainViewModel>()
+    @Inject
+    lateinit var vmFactory: MainViewModelFactory
+    private lateinit var vm: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        (applicationContext as App).appComponent.inject(this)
+        vm = ViewModelProvider(this, vmFactory).get(MainViewModel::class.java)
 
         Log.e("AAA", "Activity created")
 

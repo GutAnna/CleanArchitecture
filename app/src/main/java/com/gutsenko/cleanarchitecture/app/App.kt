@@ -1,22 +1,19 @@
 package com.gutsenko.cleanarchitecture.app
 
 import android.app.Application
-import com.gutsenko.cleanarchitecture.di.appModule
-import com.gutsenko.cleanarchitecture.di.dataModule
-import com.gutsenko.cleanarchitecture.di.domainModule
-import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.startKoin
-import org.koin.core.logger.Level
+import com.gutsenko.cleanarchitecture.di.AppComponent
+import com.gutsenko.cleanarchitecture.di.AppModule
+import com.gutsenko.cleanarchitecture.di.DaggerAppComponent
 
 class App : Application() {
+
+    lateinit var appComponent: AppComponent
     override fun onCreate() {
         super.onCreate()
 
-        startKoin {
-            androidLogger(Level.DEBUG)
-            androidContext(this@App)
-            modules(listOf(appModule, domainModule, dataModule))
-        }
+        appComponent = DaggerAppComponent
+            .builder()
+            .appModule(AppModule(this))
+            .build()
     }
 }
